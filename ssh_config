@@ -16,7 +16,7 @@ Host devC
   ProxyJump bastion
 
 Host bastionNSO
-  HostName 91.106.198.21
+  HostName 89.42.141.91
   User ubuntu
   IdentityFile ~/.ssh/id_rsa
 Host haproxy
