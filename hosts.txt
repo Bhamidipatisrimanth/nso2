@@ -1,5 +1,5 @@
 [Webservers]
-devA ansible_host=91.106.198.243 ansible_user=ubuntu
+devA ansible_host=89.42.141.227 ansible_user=ubuntu
 devB ansible_host=91.106.198.162 ansible_user=ubuntu
 devC ansible_host=91.106.198.100 ansible_user=ubuntu
 
