@@ -4,7 +4,7 @@ devB ansible_host=91.106.198.162 ansible_user=ubuntu
 devC ansible_host=91.106.198.100 ansible_user=ubuntu
 
 [Bastionserver]
-bastionNSO ansible_host=91.106.198.9 ansible_user=ubuntu
+bastionNSO ansible_host=89.42.141.91 ansible_user=ubuntu
 
 [HAproxyserver]
-haproxy ansible_host=188.95.231.21 ansible_user=ubuntu
+haproxy ansible_host=91.106.198.21 ansible_user=ubuntu
