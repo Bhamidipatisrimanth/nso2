@@ -1,7 +1,7 @@
 [Webservers]
 devA ansible_host=89.42.141.227 ansible_user=ubuntu
 devB ansible_host=91.106.198.162 ansible_user=ubuntu
-devC ansible_host=91.106.198.100 ansible_user=ubuntu
+devC ansible_host=89.42.141.176 ansible_user=ubuntu
 
 [Bastionserver]
 bastionNSO ansible_host=89.42.141.91 ansible_user=ubuntu
