@@ -1,72 +1,82 @@
 ---
 - hosts: all
-  gather_facts: yes
   become: yes
-  tasks:
-    - name: Update package cache
-      apt:
-        update_cache: yes
-    - name: Upgrade packages
-      apt:
-        upgrade: yes
-        autoremove: yes
-        autoclean: yes
-#installs and configure
+  gather_facts: yes
 - hosts: HAproxy
   become: yes
   become_method: sudo
   tasks:
-    - name: HAproxy Update
+    - name: apt update
       apt:
-        update_cache: yes
-    - name: Install HAproxy
+        update_cache: true
+    - name: Install haproxy
       apt:
         name: haproxy
-        state: latest
-    - name: Configure HAproxy
+        state: present
+    - name: Configure haproxy
       template:
         src: haproxy.cfg.j2
-        dest: /etc/haproxy/haproxy.cfg.j2
-    - name: Restart HAproxy
+        dest: /etc/haproxy/haproxy.cfg
       become: yes
+    - name: Installing nginx,snmp and snmp-mibs-downloader
+      apt:
+        update_cache: yes
+        name: [ 'nginx', 'snmp', 'snmp-mibs-downloader' ] 
+        state: latest
+    
+         
+    - name: copy nginx config files
+      template:
+         src: nginx.conf.j2
+         dest: /etc/nginx/nginx.conf
+         
+    - name: nginx start
+      service:
+        name: nginx
+        state: restarted   
+        
+    - name: restart haproxy
       service:
         name: haproxy
         state: restarted
-# Deploys and tests the flask app on webservers
 - hosts: webservers
   become: yes
   become_method: sudo
   tasks:
-    - name: Webservers update
+    - name: apt update
       apt:
-        update_cache: yes
-    - name: install python3-pip
+        update_cache: true
+    - name: Install Python,pip3,Flask and venv
       apt:
-        name: python3-pip
-        state: latest
-        update_cache: yes
-    - name: flask installation
-      pip:
-        name: flask
-        state: latest  
-    - name: install Gunicorn
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+        state: present
+    - name: Installing Gunicorn
       apt:
-        name: gunicorn     
-    - name: copy the flask app code to the servers
+        name: gunicorn
+    - name: Copy Flask app files
       copy:
-        src:  /$PWD/application2.py
-        dest: /home/ubuntu/application2.py
-        owner: ubuntu
-        mode: '0644'
-    - name: execute the flask-app deployment
-      shell: gunicorn -w 2 -D -b 0.0.0.0:5000 application2:app
-- hosts: HAproxy
-  become: yes
-  become_method: sudo
-  tasks:
-    - name: Restart HAproxy
-      become: yes
+        src: app.py
+        dest: /home/ubuntu/app.py
+    - name: Running Flask application
+      shell: gunicorn -w 2 -D -b 0.0.0.0:8080 app:app
+    - name: install snmpd
+      apt:
+        name: snmpd
+        state: latest
+        
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        
+    - name: copy required snmpd config files
+      template:
+        src: snmpd.conf.j2
+        dest: /etc/snmp/snmpd.conf
+        
+    - name: Run snmpd service
       service:
-        name: haproxy
+        name: snmpd
         state: restarted
-
