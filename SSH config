@@ -17,20 +17,20 @@ Host HAproxy
 Host devA
   User ubuntu
   HostName <ip_address>
-  ProxyJump bastionNSO
+  ProxyJump bastionET2598
   StrictHostKeyChecking no
   PasswordAuthentication no
 
 Host devB
   User ubuntu
   HostName <ip_address>
-  ProxyJump bastionNSO
+  ProxyJump bastionET2598
   StrictHostKeyChecking no
   PasswordAuthentication no
 
 Host devC
   User ubuntu
   HostName <ip_address>
-  ProxyJump bastionNSO
+  ProxyJump bastionET2598
   StrictHostKeyChecking no
   PasswordAuthentication no
