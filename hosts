@@ -6,8 +6,8 @@ devA
 devB  
 devC  
 
-[bastionNSO]
-bastionNSO
+[bastionET2598]
+bastionET2598
  
 [all:vars]  
 ansible_user=ubuntu 
